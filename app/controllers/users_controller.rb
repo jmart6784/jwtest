@@ -38,6 +38,25 @@ class UsersController < ApplicationController
     }
   end
 
+  def present_user
+    token = request.headers['Authorization'].split(' ')[1]
+
+    if token
+      user_id = JWT.decode(token, ENV["jwt_secret"], true, algorithm: 'HS256')[0]['user_id']
+      user = User.find(user_id)
+
+      render json: {
+        user: {
+          id: user.id, 
+          username: user.username, 
+          age: user.age
+        }, token: token
+      }
+    else
+      render json: {message: "User not found"}, status: 404
+    end
+  end
+
   private
 
   def user_params
