@@ -16,14 +16,26 @@ class UsersController < ApplicationController
 
     if @user && @user.password_digest === user_params[:password_digest]
       token = encode_token({user_id: @user.id})
-      render json: {user: @user, token: token}
+      render json: {
+        user: {
+          id: @user.id, 
+          username: @user.username, 
+          age: @user.age
+        }, token: token
+      }
     else
       render json: {error: "Invalid username or password"}
     end
   end
 
   def auto_login
-    render json: @user
+    render json: {
+      user: {
+        id: @user.id, 
+        username: @user.username, 
+        age: @user.age
+      }, token: token
+    }
   end
 
   private
