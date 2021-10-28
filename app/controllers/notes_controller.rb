@@ -28,7 +28,7 @@ class NotesController < ApplicationController
 
   # PATCH/PUT /notes/1
   def update
-    if @note.update(note_params)
+    if @note.update(message: note_params[:message], user_id: note_user[:id].to_i)
       render json: @note
     else
       render json: @note.errors, status: :unprocessable_entity
