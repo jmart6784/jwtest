@@ -46,7 +46,13 @@ class UsersController < ApplicationController
     user = User.find_by(id: params[:id])
 
     unless user.nil?
-      render json: user, status: 200
+      render json: {
+        id: user.id, 
+        username: user.username, 
+        age: user.age,
+        created_at: user.created_at, 
+        updated_at: user.updated_at
+      }, status: 200
     else
       render json: {message: "User not found"}, status: 404
     end
