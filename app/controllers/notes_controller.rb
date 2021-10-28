@@ -38,6 +38,7 @@ class NotesController < ApplicationController
   # DELETE /notes/1
   def destroy
     @note.destroy
+    render json: {messge: "Note deleted"}, status: 200
   end
 
   private
