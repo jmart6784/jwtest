@@ -20,7 +20,9 @@ class UsersController < ApplicationController
         user: {
           id: @user.id, 
           username: @user.username, 
-          age: @user.age
+          age: @user.age,
+          created_at: @user.created_at, 
+          updated_at: @user.updated_at
         }, token: token
       }
     else
@@ -33,7 +35,9 @@ class UsersController < ApplicationController
       user: {
         id: @user.id, 
         username: @user.username, 
-        age: @user.age
+        age: @user.age,
+        created_at: @user.created_at, 
+        updated_at: @user.updated_at
       }, token: token
     }
   end
@@ -46,12 +50,12 @@ class UsersController < ApplicationController
       user = User.find(user_id)
 
       render json: {
-        user: {
-          id: user.id, 
-          username: user.username, 
-          age: user.age
-        }, token: token
-      }
+        id: user.id, 
+        username: user.username, 
+        age: user.age, 
+        created_at: user.created_at, 
+        updated_at: user.updated_at
+      }, token: token
     else
       render json: {message: "User not found"}, status: 404
     end

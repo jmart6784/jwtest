@@ -56,7 +56,14 @@ class NotesController < ApplicationController
 
       if token
         user_id = JWT.decode(token, ENV["jwt_secret"], true, algorithm: 'HS256')[0]['user_id']
-        return User.find(user_id)
+        user = User.find(user_id)
+        return {
+          id: user.id, 
+          username: user.username, 
+          age: user.age, 
+          created_at: user.created_at, 
+          updated_at: user.updated_at
+        }
       end
     end
 end
