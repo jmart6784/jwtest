@@ -45,6 +45,10 @@ class NotesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_note
       @note = Note.find(params[:id])
+
+      if @note.user.id != note_user[:id].to_i
+        render json: {message: 'Action not allowed'}
+      end
     end
 
     # Only allow a trusted parameter "white list" through.
