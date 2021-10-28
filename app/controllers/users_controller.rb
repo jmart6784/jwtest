@@ -42,6 +42,16 @@ class UsersController < ApplicationController
     }
   end
 
+  def show
+    user = User.find_by(id: params[:id])
+
+    unless user.nil?
+      render json: user, status: 200
+    else
+      render json: {message: "User not found"}, status: 404
+    end
+  end
+
   def present_user
     token = request.headers['Authorization'].split(' ')[1]
 
