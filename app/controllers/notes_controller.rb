@@ -17,6 +17,7 @@ class NotesController < ApplicationController
   # POST /notes
   def create
     @note = Note.new(note_params)
+    @note.user_id = note_user.id
 
     if @note.save
       render json: @note, status: :created, location: @note
@@ -48,5 +49,14 @@ class NotesController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def note_params
       params.require(:note).permit(:message, :user_id)
+    end
+
+    def note_user
+      token = request.headers['Authorization'].split(' ')[1]
+
+      if token
+        user_id = JWT.decode(token, ENV["jwt_secret"], true, algorithm: 'HS256')[0]['user_id']
+        return User.find(user_id)
+      end
     end
 end
