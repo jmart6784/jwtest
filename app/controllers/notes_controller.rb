@@ -17,7 +17,7 @@ class NotesController < ApplicationController
   # POST /notes
   def create
     @note = Note.new(note_params)
-    @note.user_id = note_user.id
+    @note.user_id = note_user[:id].to_i
 
     if @note.save
       render json: @note, status: :created, location: @note
@@ -57,6 +57,7 @@ class NotesController < ApplicationController
       if token
         user_id = JWT.decode(token, ENV["jwt_secret"], true, algorithm: 'HS256')[0]['user_id']
         user = User.find(user_id)
+
         return {
           id: user.id, 
           username: user.username, 
